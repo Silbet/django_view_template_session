@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>글 보기</title>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Gowun Dodum', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>
+            {{ article.title }}
+        </h1>
+
+        <a href="{% url 'article:index' %}">
+            글 목록으로 돌아가기
+        </a>
+
+        <div>
+            <h3>
+                작성자 : {{ article.author.username }}
+            </h3>
+            <div>
+                <a href="{% url 'article:edit' article.id %}">
+                    글수정하기
+                </a>
+                <a href="{% url 'article:delete' article.id %}">
+                    글삭제하기
+                </a>
+            </div>
+
+            <hr />
+
+            <p>
+                {{ article.content }}
+            </p>
+        </div>
+
+        <hr>
+        <h3>댓글</h3>
+        {% for comment in comments %}
+            <div>
+                <h5>
+                    {{ comment.author.username }} : {{ comment.content }}
+                </h5>
+            </div>
+        {% endfor %}    
+
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" name="content" placeholder="댓글 쓰기" />
+            <button type="submit">작성</button>
+        </form>
+
+    </div>
+</body>
